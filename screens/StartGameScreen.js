@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 
-import Card from '../components/Card'
+import Card from '../components/Card';
+import Colors from '../constants/colors';
 
 const StartGameScreen = props => {
   return (
@@ -10,8 +11,8 @@ const StartGameScreen = props => {
       <Card style={styles.selectNumberCard}>
         <Text style={styles.selectNumberText}>Select a Number</Text>
         <View style={styles.selectNumberButtons}>
-          <View style={{width: '40%'}}><Button color='#eb2121' title="Reset" onPress={() => {alert("Pressed Button [Reset]")}} /></View>
-          <View style={{width: '40%'}}><Button color='#21eb57' title="Accept" onPress={() => {alert("Pressed Button [Accept]")}} /></View>
+          <View style={{width: '40%'}}><Button color={Colors.mainRed} title="Reset" onPress={() => {alert("Pressed Button [Reset]")}} /></View>
+          <View style={{width: '40%'}}><Button color={Colors.mainGreen} title="Accept" onPress={() => {alert("Pressed Button [Accept]")}} /></View>
         </View>
       </Card>
     </View>
@@ -21,11 +22,11 @@ const StartGameScreen = props => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.mainWhite,
   },
   startNewGameText: {
     fontSize: 20,
-    color: '#777',
+    color: Colors.mainGrey,
     fontWeight: '600',
     textAlign: 'center',
     marginVertical: 25,
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   },
   selectNumberText: {
     fontSize: 18,
-    color: '#777',
+    color: Colors.mainGrey,
     fontWeight: '400',
     textAlign: 'center',
     marginBottom: 15,

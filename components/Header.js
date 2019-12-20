@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
+import Colors from '../constants/colors';
+
 const Header =  props => {
   return (
     <View style={styles.header}>
@@ -16,12 +18,12 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ff4abd',
+    backgroundColor: Colors.mainPink,
   },
   headerText: {
     // marginTop: 27,
     marginTop: '8%',
-    color: '#fff',
+    color: Colors.mainWhite,
     fontSize: 25,
     fontWeight: 'bold',
     textTransform: "capitalize",
