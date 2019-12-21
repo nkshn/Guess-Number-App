@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, View, Text, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 
 import Card from '../components/Card';
 import Input from '../components/Input';
@@ -7,9 +7,37 @@ import Colors from '../constants/colors';
 
 const StartGameScreen = props => {
   const [enteredDigit, setEnteredDigit] = useState('');
+  const [acceptDigit, setAcceptDigit] = useState(false);
+  const [selectedDigit, setSelectedDigit] = useState();
+  
   const enteringDigitHandler = digit => {
     setEnteredDigit(digit.replace(/[^0-9]/g, ''));
   };
+
+  const resetButtonHandler = () => {
+    setEnteredDigit('');
+    setAcceptDigit(false);
+  };
+
+  const acceptButtonHander = () => {
+    const digit = parseInt(enteredDigit);
+    if(isNaN(digit) || digit <= 0 || digit > 99) {
+      Alert.alert('Invalid digit!', 'Digit had to be between 1 and 99.', 
+      [
+        {text: 'OK', onPress: resetButtonHandler, style: 'destructive'}
+      ], {cancelable: false})
+      resetButtonHandler(); // Maybe later I'll delete this )
+      return;
+    }
+    setAcceptDigit(true);
+    setSelectedDigit(digit);
+    setEnteredDigit('');
+  };
+
+  let confirmedText;
+  if(acceptDigit) {
+    confirmedText = <Text style={{textAlign: 'center', marginVertical: 25, fontSize: 18, fontWeight: '600', color: Colors.mainGrey}}>Entered Digit: {selectedDigit}</Text>
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
@@ -27,10 +55,11 @@ const StartGameScreen = props => {
             onChangeText={enteringDigitHandler}
             value={enteredDigit} />
           <View style={styles.selectNumberButtons}>
-            <View style={{width: '40%'}}><Button color={Colors.mainRed} title="Reset" onPress={() => alert("Pressed Button [Reset]")} /></View>
-            <View style={{width: '40%'}}><Button color={Colors.mainGreen} title="Accept" onPress={() => alert("Pressed Button [Accept]")} /></View>
+            <View style={{width: '40%'}}><Button color={Colors.mainRed} title="Reset" onPress={resetButtonHandler} /></View>
+            <View style={{width: '40%'}}><Button color={Colors.mainGreen} title="Accept" onPress={acceptButtonHander} /></View>
           </View>
         </Card>
+        {confirmedText}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -63,18 +92,14 @@ const styles = StyleSheet.create({
   },
   input: {
     color: Colors.mainGrey,
-    borderBottomColor: Colors.mainPink,
-    borderBottomWidth: 1,
-    width: 35,
-    
-    // borderColor: Colors.mainPink,
-    // paddingVertical: 5,
-    // borderWidth: 1,
-    // borderRadius: 10,
-    // width: 40,
-    // height: 35,
-    // fontSize: 18,
-    // fontWeight: '300',
+    borderColor: Colors.mainPink,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderRadius: 10,
+    width: 40,
+    height: 35,
+    fontSize: 18,
+    fontWeight: '300',
   },
   selectNumberButtons: {
     flexDirection: 'row',
