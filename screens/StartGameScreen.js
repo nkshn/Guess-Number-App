@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Button, TouchableWithoutFeedback, Keyboard, Ale
 import Card from '../components/Card';
 import Input from '../components/Input';
 import Colors from '../constants/colors';
+import DigitContainer from '../components/DigitContainer';
 
 const StartGameScreen = props => {
   const [enteredDigit, setEnteredDigit] = useState('');
@@ -32,11 +33,18 @@ const StartGameScreen = props => {
     setAcceptDigit(true);
     setSelectedDigit(digit);
     setEnteredDigit('');
+    Keyboard.dismiss();
   };
 
   let confirmedText;
   if(acceptDigit) {
-    confirmedText = <Text style={{textAlign: 'center', marginVertical: 25, fontSize: 18, fontWeight: '600', color: Colors.mainGrey}}>Entered Digit: {selectedDigit}</Text>
+    confirmedText = (
+      <Card style={styles.chosenDigitCard}>
+        <Text style={styles.chosenDigitTitle}>Your Selected Digit</Text>
+        <DigitContainer digit={selectedDigit}/>
+        <View style={{width: '60%'}}><Button title="Start game" color={Colors.mainGreen} onPress={() => {alert("Start Game")}}/></View>
+      </Card>
+    );
   }
 
   return (
@@ -81,7 +89,6 @@ const styles = StyleSheet.create({
   selectNumberCard: {
     width: 325,
     maxWidth: '90%',
-    alignSelf: 'center',
   },
   selectNumberText: {
     fontSize: 18,
@@ -104,6 +111,17 @@ const styles = StyleSheet.create({
   selectNumberButtons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  chosenDigitCard: {
+    marginTop: 30,
+    width: 275,
+    maxWidth: '65%',
+    alignItems: 'center',
+  },
+  chosenDigitTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: Colors.mainGrey,
   },
 });
 
