@@ -6,7 +6,7 @@ import Colors from '../constants/colors';
 const DigitContainer = props => {
   return (
     <View style={styles.container}>
-      <Text style={styles.containerText}>{props.digit}</Text>
+      <Text style={styles.containerText}>{props.children}</Text>
     </View>
   );
 };
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     marginVertical: 13,
   },
   containerText: {
+    color: Colors.mainGrey,
     borderColor: Colors.mainPink,
     borderWidth: 2,
     borderRadius: 15,
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     fontSize: 22,
     fontWeight: 'bold',
-    color: Colors.mainGrey,
+    textAlign: 'center',
   },
 });
 

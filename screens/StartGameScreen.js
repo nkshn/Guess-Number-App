@@ -41,7 +41,7 @@ const StartGameScreen = props => {
     confirmedText = (
       <Card style={styles.chosenDigitCard}>
         <Text style={styles.chosenDigitTitle}>Your Selected Digit</Text>
-        <DigitContainer digit={selectedDigit}/>
+        <DigitContainer>{selectedDigit}</DigitContainer>
         <View style={{width: '60%'}}><Button title="Start game" color={Colors.mainGreen} onPress={() => {alert("Start Game")}}/></View>
       </Card>
     );
