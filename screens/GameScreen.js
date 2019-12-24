@@ -25,12 +25,12 @@ const GameScreen = props => {
 
   return (
     <View style={styles.container}>
-      <Text style={{fontWeight: '100', fontSize: 10}}>User Guess: {props.userSelectedDigit}</Text>
+      <Text style={{marginVertical: 5, fontWeight: '100', fontSize: 10}}>User Guess: {props.userSelectedDigit}</Text>
       <Text style={styles.title}>Random generated digit</Text>
-      <DigitContainer>{currentGuess}</DigitContainer>
+      <DigitContainer style={styles.digitContainer}>{currentGuess}</DigitContainer>
       <Card style={styles.buttonsCard}>
-        <View style={{width: '45%'}}><Button color={Colors.mainRed}   title="lower" onPress={() => {alert("Pressed Button [LOWER]")}}/></View>
-        <View style={{width: '45%'}}><Button color={Colors.mainGreen} title="upper" onPress={() => {alert("Pressed Button [UPPER]")}}/></View>
+        <View style={{width: '45%'}}><Button color={Colors.mainRed}   title="Lower" onPress={() => {alert("Pressed Button [LOWER]")}}/></View>
+        <View style={{width: '45%'}}><Button color={Colors.mainGreen} title="Upper" onPress={() => {alert("Pressed Button [UPPER]")}}/></View>
       </Card>
     </View>
   );
@@ -39,14 +39,20 @@ const GameScreen = props => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center'
   },
   title: {
     fontSize: 20,
     color: Colors.mainGrey,
     fontWeight: '600',
     textAlign: 'center',
-    marginVertical: 5,
+    // marginVertical: 5,
     letterSpacing: 1,
+  },
+  digitContainer: {
+    marginTop: 10,
+    marginBottom: 13,
   },
   buttonsCard: {
     marginBottom: 30,

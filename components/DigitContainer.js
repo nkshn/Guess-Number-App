@@ -5,7 +5,7 @@ import Colors from '../constants/colors';
 
 const DigitContainer = props => {
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, ...props.style}}>
       <Text style={styles.containerText}>{props.children}</Text>
     </View>
   );
