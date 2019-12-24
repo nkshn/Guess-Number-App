@@ -8,7 +8,7 @@ import DigitContainer from '../components/DigitContainer';
 
 const StartGameScreen = props => {
   const [enteredDigit, setEnteredDigit] = useState('');
-  const [acceptDigit, setAcceptDigit] = useState(false);
+  const [acceptDigitTrigger, setAcceptDigitTrigger] = useState(false);
   const [selectedDigit, setSelectedDigit] = useState();
   
   const enteringDigitHandler = digit => {
@@ -17,7 +17,7 @@ const StartGameScreen = props => {
 
   const resetButtonHandler = () => {
     setEnteredDigit('');
-    setAcceptDigit(false);
+    setAcceptDigitTrigger(false);
   };
 
   const acceptButtonHander = () => {
@@ -25,24 +25,26 @@ const StartGameScreen = props => {
     if(isNaN(digit) || digit <= 0 || digit > 99) {
       Alert.alert('Invalid digit!', 'Digit had to be between 1 and 99.', 
       [
-        {text: 'OK', onPress: resetButtonHandler, style: 'destructive'}
+        {text: 'OK', onPress: resetButtonHandler, style: 'default'}
       ], {cancelable: false})
       resetButtonHandler(); // Maybe later I'll delete this )
       return;
     }
-    setAcceptDigit(true);
+    setAcceptDigitTrigger(true);
     setSelectedDigit(digit);
     setEnteredDigit('');
     Keyboard.dismiss();
   };
 
   let confirmedText;
-  if(acceptDigit) {
+  if(acceptDigitTrigger) {
     confirmedText = (
       <Card style={styles.chosenDigitCard}>
         <Text style={styles.chosenDigitTitle}>Your Selected Digit</Text>
         <DigitContainer>{selectedDigit}</DigitContainer>
-        <View style={{width: '60%'}}><Button title="Start game" color={Colors.mainGreen} onPress={() => {alert("Start Game")}}/></View>
+        <View style={{width: '60%'}}>
+          <Button title="Start game" color={Colors.mainGreen} onPress={() => props.onStartGameButton(selectedDigit)}/>
+        </View>
       </Card>
     );
   }
