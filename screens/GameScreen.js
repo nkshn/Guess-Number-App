@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, View, Text, Button, Alert } from 'react-native';
 
 import Colors from '../constants/colors';
@@ -23,11 +23,21 @@ const GameScreen = props => {
     generateDigitBetween(1, 100, props.userSelectedDigit)
   );
   
+  const [rounds, setRounds] = useState(0);
+
   const currentMin = useRef(1);
   const currentMax = useRef(100);
 
+  const { userSelectedDigit, onGameOver } = props;
+
+  useEffect(() => {
+    if(currentGuess === userSelectedDigit) {
+      onGameOver(rounds);
+    }
+  }, [currentGuess, userSelectedDigit, onGameOver]);
+
   const generateNextDigitHandler = direction => {
-    if((direction === 'lower' && currentGuess < props.userSelectedDigit) || (direction === 'upper' && currentGuess > props.userSelectedDigit)) {
+    if((direction === 'lower' && currentGuess < userSelectedDigit) || (direction === 'upper' && currentGuess > userSelectedDigit)) {
       Alert.alert('Don\'t Lie!', 'You know that this is wrong...', 
       [
         {text: 'Okey', style: 'default'}
@@ -40,11 +50,16 @@ const GameScreen = props => {
 
     const nextDigit = generateDigitBetween(currentMin.current, currentMax.current, currentGuess);
     setCurrentGuess(nextDigit);
+    setRounds(curRounds => curRounds + 1);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={{marginVertical: 5, fontWeight: '100', fontSize: 10}}>User Guess: {props.userSelectedDigit}</Text>
+    <View style={styles.screen}>
+      <Text style={{marginVertical: 5, fontWeight: '100', fontSize: 10}}>User Guess: {userSelectedDigit}</Text>
+      <Text style={{marginVertical: 5, fontWeight: '100', fontSize: 10}}>Random Generated Digit: {currentGuess}</Text>
+      <Text style={{marginVertical: 5, fontWeight: '100', fontSize: 10}}>Tries: {rounds}</Text>
+
+
       <Text style={styles.title}>Random generated digit</Text>
       <DigitContainer style={styles.digitContainer}>{currentGuess}</DigitContainer>
       <Card style={styles.buttonsCard}>
@@ -56,7 +71,7 @@ const GameScreen = props => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center'
