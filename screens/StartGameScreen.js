@@ -6,6 +6,9 @@ import Input from '../components/Input';
 import Colors from '../constants/colors';
 import DigitContainer from '../components/DigitContainer';
 
+import SubTitle from '../components/SubTitle';
+import MainTitle from '../components/MainTitle';
+
 const StartGameScreen = props => {
   const [enteredDigit, setEnteredDigit] = useState('');
   const [acceptDigitTrigger, setAcceptDigitTrigger] = useState(false);
@@ -40,7 +43,7 @@ const StartGameScreen = props => {
   if(acceptDigitTrigger) {
     confirmedText = (
       <Card style={styles.chosenDigitCard}>
-        <Text style={styles.chosenDigitTitle}>Your Selected Digit</Text>
+        <SubTitle>Your Selected Digit</SubTitle>
         <DigitContainer>{selectedDigit}</DigitContainer>
         <View style={{width: '60%'}}>
           <Button title="Start game" color={Colors.mainGreen} onPress={() => props.onStartGameButton(selectedDigit)}/>
@@ -52,9 +55,9 @@ const StartGameScreen = props => {
   return (
     <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <View style={styles.screen}>
-        <Text style={styles.startNewGameText}>Start a New Game!</Text>
+        <MainTitle style={styles.startNewGameText}>Start a New Game!</MainTitle>
         <Card style={styles.selectNumberCard}>
-          <Text style={styles.selectNumberText}>Select a Number</Text>
+          <SubTitle style={styles.selectNumberText}>Select a Number</SubTitle>
           <Input
             style={styles.input}
             keyboardType='number-pad'
@@ -78,14 +81,11 @@ const StartGameScreen = props => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    alignItems: 'center',
     backgroundColor: Colors.mainWhite,
   },
   startNewGameText: {
-    fontSize: 20,
-    color: Colors.mainGrey,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginVertical: 25,
+    marginVertical: 23,
     letterSpacing: 1,
   },
   selectNumberCard: {
@@ -93,9 +93,6 @@ const styles = StyleSheet.create({
     maxWidth: '90%',
   },
   selectNumberText: {
-    fontSize: 18,
-    color: Colors.mainGrey,
-    fontWeight: '400',
     textAlign: 'center',
     marginBottom: 10,
   },
@@ -119,11 +116,6 @@ const styles = StyleSheet.create({
     width: 275,
     maxWidth: '65%',
     alignItems: 'center',
-  },
-  chosenDigitTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: Colors.mainGrey,
   },
 });
 

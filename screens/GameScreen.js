@@ -5,6 +5,8 @@ import Colors from '../constants/colors';
 import Card from '../components/Card';
 import DigitContainer from '../components/DigitContainer';
 
+import MainTitle from '../components/MainTitle';
+
 const generateDigitBetween = (min, max, exclude) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -55,12 +57,7 @@ const GameScreen = props => {
 
   return (
     <View style={styles.screen}>
-      <Text style={{marginVertical: 5, fontWeight: '100', fontSize: 10}}>User Guess: {userSelectedDigit}</Text>
-      <Text style={{marginVertical: 5, fontWeight: '100', fontSize: 10}}>Random Generated Digit: {currentGuess}</Text>
-      <Text style={{marginVertical: 5, fontWeight: '100', fontSize: 10}}>Tries: {rounds}</Text>
-
-
-      <Text style={styles.title}>Random generated digit</Text>
+      <MainTitle>Random generated digit</MainTitle>
       <DigitContainer style={styles.digitContainer}>{currentGuess}</DigitContainer>
       <Card style={styles.buttonsCard}>
         <View style={{width: '45%'}}><Button color={Colors.mainRed}   title="Lower" onPress={generateNextDigitHandler.bind(this, 'lower')}/></View>
@@ -72,17 +69,9 @@ const GameScreen = props => {
 
 const styles = StyleSheet.create({
   screen: {
-    alignItems: 'center',
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center'
-  },
-  title: {
-    fontSize: 20,
-    color: Colors.mainGrey,
-    fontWeight: '600',
-    textAlign: 'center',
-    // marginVertical: 5,
-    letterSpacing: 1,
   },
   digitContainer: {
     marginTop: 10,
