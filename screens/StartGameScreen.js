@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 
 import Card from '../components/Card';
 import Input from '../components/Input';
 import Colors from '../constants/colors';
 import DigitContainer from '../components/DigitContainer';
+import MainButton from '../components/MainButton';
 
 import SubTitle from '../components/SubTitle';
 import MainTitle from '../components/MainTitle';
@@ -13,7 +14,7 @@ const StartGameScreen = props => {
   const [enteredDigit, setEnteredDigit] = useState('');
   const [acceptDigitTrigger, setAcceptDigitTrigger] = useState(false);
   const [selectedDigit, setSelectedDigit] = useState();
-  
+
   const enteringDigitHandler = digit => {
     setEnteredDigit(digit.replace(/[^0-9]/g, ''));
   };
@@ -25,11 +26,11 @@ const StartGameScreen = props => {
 
   const acceptButtonHander = () => {
     const digit = parseInt(enteredDigit);
-    if(isNaN(digit) || digit <= 0 || digit > 99) {
-      Alert.alert('Invalid digit!', 'Digit had to be between 1 and 99.', 
-      [
-        {text: 'OK', onPress: resetButtonHandler, style: 'default'}
-      ], {cancelable: false})
+    if (isNaN(digit) || digit <= 0 || digit > 99) {
+      Alert.alert('Invalid digit!', 'Digit had to be between 1 and 99.',
+        [
+          { text: 'OK', onPress: resetButtonHandler, style: 'default' }
+        ], { cancelable: false })
       resetButtonHandler(); // Maybe later I'll delete this )
       return;
     }
@@ -40,20 +41,21 @@ const StartGameScreen = props => {
   };
 
   let confirmedText;
-  if(acceptDigitTrigger) {
+  if (acceptDigitTrigger) {
     confirmedText = (
       <Card style={styles.chosenDigitCard}>
         <SubTitle>Your Selected Digit</SubTitle>
         <DigitContainer>{selectedDigit}</DigitContainer>
-        <View style={{width: '60%'}}>
-          <Button title="Start game" color={Colors.mainGreen} onPress={() => props.onStartGameButton(selectedDigit)}/>
-        </View>
+        <MainButton
+          title="Start game"
+          onPress={() => props.onStartGameButton(selectedDigit)}
+          bodyStyles={{ width: 125, backgroundColor: Colors.mainGreen, borderColor: Colors.mainGreen }} />
       </Card>
     );
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+    <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
       <View style={styles.screen}>
         <MainTitle style={styles.startNewGameText}>Start a New Game!</MainTitle>
         <Card style={styles.selectNumberCard}>
@@ -68,8 +70,8 @@ const StartGameScreen = props => {
             onChangeText={enteringDigitHandler}
             value={enteredDigit} />
           <View style={styles.selectNumberButtons}>
-            <View style={{width: '40%'}}><Button color={Colors.mainRed} title="Reset" onPress={resetButtonHandler} /></View>
-            <View style={{width: '40%'}}><Button color={Colors.mainGreen} title="Accept" onPress={acceptButtonHander} /></View>
+            <MainButton bodyStyles={{ width: 105, backgroundColor: Colors.mainRed, borderColor: Colors.mainRed }} title="Reset" onPress={resetButtonHandler} />
+            <MainButton bodyStyles={{ width: 105, backgroundColor: Colors.mainGreen, borderColor: Colors.mainGreen }} title="Accept" onPress={acceptButtonHander} />
           </View>
         </Card>
         {confirmedText}

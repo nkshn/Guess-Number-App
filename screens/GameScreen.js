@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, Text, Button, Alert } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 
 import Colors from '../constants/colors';
 import Card from '../components/Card';
 import DigitContainer from '../components/DigitContainer';
+import MainButton from '../components/MainButton';
 
 import MainTitle from '../components/MainTitle';
 
@@ -12,7 +13,7 @@ const generateDigitBetween = (min, max, exclude) => {
   max = Math.floor(max);
   randomDigit = Math.floor(Math.random() * (max - min)) + min;
 
-  if(randomDigit === exclude) {
+  if (randomDigit === exclude) {
     return generateDigitBetween(min, max, exclude);
   } else {
     return randomDigit;
@@ -24,7 +25,7 @@ const GameScreen = props => {
   const [currentGuess, setCurrentGuess] = useState(
     generateDigitBetween(1, 100, props.userSelectedDigit)
   );
-  
+
   const [rounds, setRounds] = useState(0);
 
   const currentMin = useRef(1);
@@ -33,21 +34,21 @@ const GameScreen = props => {
   const { userSelectedDigit, onGameOver } = props;
 
   useEffect(() => {
-    if(currentGuess === userSelectedDigit) {
+    if (currentGuess === userSelectedDigit) {
       onGameOver(rounds);
     }
   }, [currentGuess, userSelectedDigit, onGameOver]);
 
   const generateNextDigitHandler = direction => {
-    if((direction === 'lower' && currentGuess < userSelectedDigit) || (direction === 'upper' && currentGuess > userSelectedDigit)) {
-      Alert.alert('Don\'t Lie!', 'You know that this is wrong...', 
-      [
-        {text: 'Okey', style: 'default'}
-      ], {cancelable: false})
+    if ((direction === 'lower' && currentGuess < userSelectedDigit) || (direction === 'upper' && currentGuess > userSelectedDigit)) {
+      Alert.alert('Don\'t Lie!', 'You know that this is wrong...',
+        [
+          { text: 'Okey', style: 'default' }
+        ], { cancelable: false })
       return;
     }
 
-    if(direction === 'lower') { currentMax.current = currentGuess; }
+    if (direction === 'lower') { currentMax.current = currentGuess; }
     else { currentMin.current = currentGuess; }
 
     const nextDigit = generateDigitBetween(currentMin.current, currentMax.current, currentGuess);
@@ -60,8 +61,8 @@ const GameScreen = props => {
       <MainTitle>Random generated digit</MainTitle>
       <DigitContainer style={styles.digitContainer}>{currentGuess}</DigitContainer>
       <Card style={styles.buttonsCard}>
-        <View style={{width: '45%'}}><Button color={Colors.mainRed}   title="Lower" onPress={generateNextDigitHandler.bind(this, 'lower')}/></View>
-        <View style={{width: '45%'}}><Button color={Colors.mainGreen} title="Upper" onPress={generateNextDigitHandler.bind(this, 'upper')}/></View>
+        <MainButton bodyStyles={{ width: 115, backgroundColor: Colors.mainRed, borderColor: Colors.mainRed }} title="Lower" onPress={generateNextDigitHandler.bind(this, 'lower')} />
+        <MainButton bodyStyles={{ width: 115, backgroundColor: Colors.mainGreen, borderColor: Colors.mainGreen }} title="Upper" onPress={generateNextDigitHandler.bind(this, 'upper')} />
       </Card>
     </View>
   );
