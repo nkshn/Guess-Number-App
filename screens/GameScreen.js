@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, Alert, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, View, Alert, FlatList } from 'react-native';
 
 import Colors from '../constants/colors';
 import Card from '../components/Card';
@@ -24,7 +24,7 @@ const generateDigitBetween = (min, max, exclude) => {
 const GameScreen = props => {
 
   const [initialGenerateDigit, setInitialGenerateDigit] = useState(generateDigitBetween(1, 100, props.userSelectedDigit));
-  const [pastGuesses, setPastGuesses] = useState([initialGenerateDigit]);
+  const [pastGuesses, setPastGuesses] = useState([initialGenerateDigit.toString()]);
   const [currentGuess, setCurrentGuess] = useState(initialGenerateDigit);
   const currentMin = useRef(1);
   const currentMax = useRef(100);
@@ -51,13 +51,13 @@ const GameScreen = props => {
 
     const nextDigit = generateDigitBetween(currentMin.current, currentMax.current, currentGuess);
     setCurrentGuess(nextDigit);
-    setPastGuesses(curGuess => [nextDigit, ...curGuess]);
+    setPastGuesses(curGuess => [nextDigit.toString(), ...curGuess]);
   };
 
-  const renderItemList = (value, numberOfRound) => (
-    <View style={styles.listItem} key={value}>
-      <SubTitle>№ {numberOfRound}</SubTitle>
-      <SubTitle>{value}</SubTitle>
+  const renderItemList = (listLength, itemData) => (
+    <View style={styles.listItem}>
+      <SubTitle>№ {listLength - itemData.index}</SubTitle>
+      <SubTitle>{itemData.item}</SubTitle>
     </View>
   );
 
@@ -71,9 +71,10 @@ const GameScreen = props => {
       </Card>
       <View style={styles.listContainer}>
         <SubTitle style={styles.listTitle}>Previous Guesses</SubTitle>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {pastGuesses.map((guessItem, index) => renderItemList(guessItem, pastGuesses.length - index))}
-        </ScrollView>
+        <FlatList
+          data={pastGuesses}
+          keyExtractor={item => item}
+          renderItem={renderItemList.bind(this, pastGuesses.length)} />
       </View>
     </View>
   );
