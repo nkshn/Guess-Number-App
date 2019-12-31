@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, Alert, FlatList, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Alert, FlatList, ScrollView } from 'react-native';
 
 import Colors from '../constants/colors';
 import Card from '../components/Card';
 import DigitContainer from '../components/DigitContainer';
 import MainButton from '../components/MainButton';
+import SubTitle from '../components/SubTitle';
 
 import MainTitle from '../components/MainTitle';
 
@@ -25,7 +26,6 @@ const GameScreen = props => {
   const [initialGenerateDigit, setInitialGenerateDigit] = useState(generateDigitBetween(1, 100, props.userSelectedDigit));
   const [pastGuesses, setPastGuesses] = useState([initialGenerateDigit]);
   const [currentGuess, setCurrentGuess] = useState(initialGenerateDigit);
-  // const [rounds, setRounds] = useState(0);
   const currentMin = useRef(1);
   const currentMax = useRef(100);
 
@@ -54,6 +54,13 @@ const GameScreen = props => {
     setPastGuesses(curGuess => [nextDigit, ...curGuess]);
   };
 
+  const renderItemList = (value, numberOfRound) => (
+    <View style={styles.listItem} key={value}>
+      <SubTitle>№ {numberOfRound}</SubTitle>
+      <SubTitle>{value}</SubTitle>
+    </View>
+  );
+
   return (
     <View style={styles.screen}>
       <MainTitle style={styles.mainTitle}>Random generated digit</MainTitle>
@@ -62,13 +69,12 @@ const GameScreen = props => {
         <MainButton bodyStyles={{ width: 115, backgroundColor: Colors.mainRed, borderColor: Colors.mainRed }} title="Lower" onPress={generateNextDigitHandler.bind(this, 'lower')} />
         <MainButton bodyStyles={{ width: 115, backgroundColor: Colors.mainGreen, borderColor: Colors.mainGreen }} title="Upper" onPress={generateNextDigitHandler.bind(this, 'upper')} />
       </Card>
-      <ScrollView>
-        {pastGuesses.map((guess) => (
-          <View style={styles.itemContainer} key={guess}>
-            <Text>Random Generated Digit: {guess}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.listContainer}>
+        <SubTitle style={styles.listTitle}>Previous Guesses</SubTitle>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {pastGuesses.map((guessItem, index) => renderItemList(guessItem, pastGuesses.length - index))}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -77,7 +83,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   mainTitle: {
     marginTop: 23,
@@ -88,18 +93,27 @@ const styles = StyleSheet.create({
     marginBottom: 13,
   },
   buttonsCard: {
-    marginBottom: 30,
     width: 300,
     maxWidth: '80%',
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  itemContainer: {
-    backgroundColor: 'grey',
-    paddingHorizontal: 20,
+  listContainer: {
+    flex: 1,
+    marginTop: 25,
+    width: '70%',
+  },
+  listTitle: {
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  listItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 13,
     paddingVertical: 7,
-    borderColor: 'black',
+    borderColor: Colors.mainPink,
     borderRadius: 10,
     borderWidth: 2,
     marginVertical: 3,
