@@ -7,19 +7,28 @@ import MainTitle from '../components/MainTitle';
 import MainButton from '../components/MainButton';
 
 const GameOverScreen = props => {
-  const { counterTries, userSelectedDigit, restartGame } = props;
+  const { counterTries, userSelectedDigit, restartGame, showGameHistory } = props;
 
   return (
     <View style={styles.screen}>
       <MainTitle style={styles.title}>Game is Over!</MainTitle>
-      <View style={styles.imageContainer}><Image source={require('../assets/images/success.png')} style={styles.image} resizeMode="cover" /></View>
+      <View style={styles.imageContainer}>
+        <Image source={require('../assets/images/success.png')} style={styles.image} resizeMode="cover" />
+      </View>
       <View style={styles.resultContainerText}>
         <SubTitle style={styles.resultText}>
           Your phone needed <Text style={styles.highlightedText}>{counterTries} tries </Text>
           to gueess user <Text style={styles.highlightedText}>digit {userSelectedDigit}</Text>
         </SubTitle>
       </View>
-      <MainButton bodyStyles={{ width: 120, backgroundColor: Colors.mainGreen, borderColor: Colors.mainGreen }} title="New Game" onPress={restartGame} />
+      <MainButton
+        title="Show History"
+        onPress={showGameHistory}
+        bodyStyles={{ width: 135, backgroundColor: Colors.mainPink, borderColor: Colors.mainPink }} />
+      <MainButton
+        title="New Game"
+        onPress={restartGame}
+        bodyStyles={{ width: 135, backgroundColor: Colors.mainGreen, borderColor: Colors.mainGreen }} />
     </View>
   );
 };
