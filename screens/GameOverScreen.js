@@ -21,14 +21,16 @@ const GameOverScreen = props => {
           to gueess user <Text style={styles.highlightedText}>digit {userSelectedDigit}</Text>
         </SubTitle>
       </View>
-      <MainButton
-        title="Show History"
-        onPress={showGameHistory}
-        bodyStyles={{ width: 135, backgroundColor: Colors.mainPink, borderColor: Colors.mainPink }} />
-      <MainButton
-        title="New Game"
-        onPress={restartGame}
-        bodyStyles={{ width: 135, backgroundColor: Colors.mainGreen, borderColor: Colors.mainGreen }} />
+      <View style={styles.buttonsContainer}>
+        <MainButton
+          title="Show History"
+          onPress={showGameHistory}
+          bodyStyles={{ width: 135, backgroundColor: Colors.mainPink, borderColor: Colors.mainPink }} />
+        <MainButton
+          title="New Game"
+          onPress={restartGame}
+          bodyStyles={{ width: 135, backgroundColor: Colors.mainGreen, borderColor: Colors.mainGreen }} />
+      </View>
     </View>
   );
 };
@@ -66,6 +68,11 @@ const styles = StyleSheet.create({
   resultText: {
     fontSize: 20,
     textAlign: 'center',
+  },
+  buttonsContainer: {
+    width: 280,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

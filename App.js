@@ -28,7 +28,6 @@ export default function App() {
 
   const showGamesHandler = () => {
     setShowGamesHistory(true);
-    console.log("ALERT! Funtion: showGamesHandler, value: ", showGamesHistory);
   };
 
   if (!dataLoaded) {
@@ -66,18 +65,16 @@ export default function App() {
         counterTries={guessRounds}
         userSelectedDigit={userDigit}
         restartGame={configureNewGameHandler}
-        // showGameHistory={() => setShowGamesHistory(true)}
         showGameHistory={showGamesHandler}
       />
     );
-    console.log("ALERT! If statment 1, value: ", showGamesHistory);
   }
   if (showGamesHistory === true) {
-    console.log("WIN! SHOWING COMPONENT, value: ", showGamesHistory);
     content = (
       <HistoryOfGamesScreen
         counterTries={guessRounds}
-        userSelectedDigit={userDigit} />
+        userSelectedDigit={userDigit}
+        backToGameOver={() => setShowGamesHistory(false)} />
     );
   }
 
