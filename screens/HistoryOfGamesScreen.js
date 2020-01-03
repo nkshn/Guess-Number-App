@@ -11,6 +11,9 @@ const HistoryOfGamesScreen = (props) => {
 
   const { userSelectedDigit, counterTries, backToGameOver } = props;
 
+  var digit = userSelectedDigit.toString();
+  var tries = counterTries.toString();
+
   const [dataArray, setDataArray] = useState([
     { id: '1', userDigit: '33', numberOfRounds: '10' },
     { id: '2', userDigit: '65', numberOfRounds: '20' },
@@ -18,6 +21,15 @@ const HistoryOfGamesScreen = (props) => {
     { id: '4', userDigit: '11', numberOfRounds: '40' },
     { id: '5', userDigit: '47', numberOfRounds: '50' },
   ]);
+
+  useEffect(() => {
+    setDataArray([...dataArray, {
+      id: (dataArray.length + 1).toString(),
+      userDigit: digit,
+      numberOfRounds: tries,
+    }]);
+    console.log(dataArray);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -64,7 +76,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     paddingHorizontal: 20,
     paddingVertical: 7,
-    borderColor: 'black',
+    borderColor: Colors.mainPink,
     borderRadius: 10,
     borderWidth: 2,
     marginVertical: 3,
